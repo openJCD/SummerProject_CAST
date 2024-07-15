@@ -1,0 +1,187 @@
+
+#----------------------------- Global Properties ----------------------------#
+
+/outputDir:bin/$(Platform)
+/intermediateDir:obj/$(Platform)
+/platform:Windows
+/config:
+/profile:Reach
+/compress:False
+
+#-------------------------------- References --------------------------------#
+
+
+#---------------------------------- Content ---------------------------------#
+
+#begin Game/node.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Game/node.png
+
+#begin Game/WORLDMAP.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Game/WORLDMAP.png
+
+#begin GUI/Fonts/CPMono_v07_Light.otf
+/copy:GUI/Fonts/CPMono_v07_Light.otf
+
+#begin GUI/Fonts/CPMono_v07_Light.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:GUI/Fonts/CPMono_v07_Light.spritefont
+
+#begin GUI/Fonts/CPMono_v07_Plain.otf
+/copy:GUI/Fonts/CPMono_v07_Plain.otf
+
+#begin GUI/Fonts/CPMono_v07_Plain.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:GUI/Fonts/CPMono_v07_Plain.spritefont
+
+#begin GUI/Fonts/RobotoMono-ExtraLight.ttf
+/copy:GUI/Fonts/RobotoMono-ExtraLight.ttf
+
+#begin GUI/Fonts/RobotoMono-Italic-VariableFont_wght.ttf
+/copy:GUI/Fonts/RobotoMono-Italic-VariableFont_wght.ttf
+
+#begin GUI/Fonts/RobotoMono-Light.ttf
+/copy:GUI/Fonts/RobotoMono-Light.ttf
+
+#begin GUI/Fonts/RobotoMono-VariableFont_wght.ttf
+/copy:GUI/Fonts/RobotoMono-VariableFont_wght.ttf
+
+#begin GUI/Fonts/RobotoMono.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:GUI/Fonts/RobotoMono.spritefont
+
+#begin GUI/Fonts/SometypeMono-Medium.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:GUI/Fonts/SometypeMono-Medium.spritefont
+
+#begin GUI/Fonts/SometypeMono-Medium.ttf
+/copy:GUI/Fonts/SometypeMono-Medium.ttf
+
+#begin GUI/Saves/readme.txt
+/copy:GUI/Saves/readme.txt
+
+#begin GUI/Textures/Button/btn_close.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GUI/Textures/Button/btn_close.png
+
+#begin GUI/Textures/Button/btn_icon_window1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GUI/Textures/Button/btn_icon_window1.png
+
+#begin GUI/Textures/Button/btn_icon_window2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GUI/Textures/Button/btn_icon_window2.png
+
+#begin GUI/Textures/Button/btn_large_2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GUI/Textures/Button/btn_large_2.png
+
+#begin GUI/Textures/Button/btn_large.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GUI/Textures/Button/btn_large.png
+
+#begin GUI/Textures/window_bg.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GUI/Textures/window_bg.png
+
+#begin GUI/Textures/Window/inactive.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GUI/Textures/Window/inactive.png
+
+#begin test.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:test.png
+
