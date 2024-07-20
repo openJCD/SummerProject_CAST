@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Xml.Schema;
 using System.IO;
+using Windows.System.Update;
 
 namespace SummerProject_CAST
 {
@@ -33,19 +34,27 @@ namespace SummerProject_CAST
         }
         public void Simulate()
         {
-            for (int i=0; i < Generations; i++)
+            Data = "";
+            csvData = "Generation,Juveniles,Adults,Seniles,Total\n";
+            float total = Juveniles.Population + Adults.Population + Seniles.Population;
+            RecordCSV(0, total);
+            RecordReadable(0);
+            for (int i=1; i <= Generations; i++)
             {
-                float total = Juveniles.Population + Adults.Population + Seniles.Population;
-                RecordReadable(i);
-                RecordCSV(i, total);
-                Juveniles.Population = (int)(Adults.Population * Adults.BirthRate);
-
-                Juveniles.Population *= Juveniles.SurvivalRate;
+                Greenflies prev_a = Adults;
+                Greenflies prev_s = Seniles;
+                Greenflies prev_j = Juveniles;
+                
                 Adults.Population *= Adults.SurvivalRate;
                 Seniles.Population *= Seniles.SurvivalRate;
-
-                Seniles.Population = Adults.Population;
-                Adults.Population = Juveniles.Population;
+                Juveniles.Population *= Juveniles.SurvivalRate;
+                
+                Adults.Population = prev_j.Population;
+                Seniles.Population = prev_a.Population;
+                Juveniles.Population = (int)(prev_a.Population * Adults.BirthRate);
+                total = Juveniles.Population + Adults.Population + Seniles.Population;
+                RecordCSV(i, total);
+                RecordReadable(i);
             }
         }
         public ExportResult ExportCSV(string filepath, bool allow_overwrite = false)
