@@ -6,12 +6,17 @@ using Windows.System.Update;
 
 namespace SummerProject_CAST
 {
+    /// <summary>
+    /// Primary part of the application
+    /// </summary>
     public class PopulationModel
     {
         Greenflies Juveniles;
         Greenflies Adults;
         Greenflies Seniles;
         public string Data;
+        float _diseaseFactor;
+
         string csvData = "Generation,Juveniles,Adults,Seniles,Total\n";
         int Generations;
         /// <summary>
@@ -21,15 +26,20 @@ namespace SummerProject_CAST
         /// <param name="a">Adults</param>
         /// <param name="s">Seniles</param>
         /// <param name="generations">Number of generations to iterate over. Must be between 5 and 25</param>
-        public PopulationModel(Greenflies j, Greenflies a, Greenflies s, int generations = 5)
+        public PopulationModel(Greenflies j, Greenflies a, Greenflies s, int generations = 5, float diseaseMod = 0.5f)
         {
             Juveniles = j;
             Adults = a;
             Seniles = s;
             Generations = generations;
+            _diseaseFactor = diseaseMod;
             if (Generations > 25 || Generations < 5)
             {
                 throw new System.Exception("Generation quantity given is either too low (less than 5) or exceeds 25.");
+            }
+            if (diseaseMod > 0.5f || diseaseMod <0.2f)
+            {
+                throw new System.Exception("Disease factor either exceeds 0.5 or is lower than 0.2");
             }
         }
         public void Simulate()
@@ -46,8 +56,8 @@ namespace SummerProject_CAST
                 Greenflies prev_j = Juveniles;
                 
                 Adults.Population *= Adults.SurvivalRate;
-                Seniles.Population *= Seniles.SurvivalRate;
-                Juveniles.Population *= Juveniles.SurvivalRate;
+                Seniles.Population *= Seniles.SurvivalRate * _diseaseFactor;
+                Juveniles.Population *= Juveniles.SurvivalRate * _diseaseFactor;
                 
                 Adults.Population = prev_j.Population;
                 Seniles.Population = prev_a.Population;

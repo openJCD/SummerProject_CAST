@@ -1,5 +1,8 @@
-﻿using HyperLinkUI.Engine.GUI;
+﻿using HyperLinkUI.Engine.Animations;
+using HyperLinkUI.Engine.GUI;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using MonoTween;
 
 namespace SummerProject_CAST
 {
@@ -7,9 +10,12 @@ namespace SummerProject_CAST
     {
 
         UIRoot UI;
+
         TextLabel label_generations;
         TextInput input_generations;
-        
+
+        TextInput input_disease;
+
         TextLabel label_juveniles;
         TextInput input_juveniles_pop;
         TextInput input_juveniles_survival;
@@ -29,10 +35,14 @@ namespace SummerProject_CAST
 
         TextInput input_csv_export;
 
+        WindowContainer dialog_export_overwrite;
+        WindowContainer dialog_export;
+
         Greenflies juveniles_default;
         Greenflies adults_default;
         Greenflies seniles_default;
         int generations_default;
+        float disease_default = 0.5f;
         public MenuScene()
         {
             UIEventHandler.OnButtonClick += MenuScene_OnButtonClick;
@@ -43,16 +53,17 @@ namespace SummerProject_CAST
             generations_default = 5;
         }
 
-        public void Load(UIRoot ui)
+        public void Load(UIRoot ui, ContentManager content)
         {
             UI = ui;
-            Container c = new Container(ui, 0, 0, 300, 300, AnchorType.CENTRE);
+            Texture2D ns = content.Load<Texture2D>("Textures/NS_TEXTINPUT");
+            Container c = new Container(ui, 0, 0, 300, 275, AnchorType.CENTRE);
+            c.Open();
             c.DrawBorder = true;
             c.RenderBackgroundColor = true;
-            //c.IsOpen = false;
-            Texture2D ns = ui.Settings.ContentManager.Load<Texture2D>("Textures/NS_TEXTINPUT");
-            Texture2D nw_w = ui.Settings.ContentManager.Load<Texture2D>("Textures/NS_WINDOW");
+            c.ClipContents = true;
             c.EnableNineSlice(ns);
+            
             Button btn_open_sim_values = new Button(c, "Set Simulation Values", 0, -90, 250, 50, AnchorType.CENTRE, EventType.OpenWindow, "sim_value_dialog");
 
             Button btn_start_sim = new Button(c, "Start Simulation", 0, -30, 200, 50, AnchorType.CENTRE, EventType.OpenWindow, "sim_data_dialog");
@@ -63,50 +74,49 @@ namespace SummerProject_CAST
 
             #region dialog for input of simulation initial values
             WindowContainer sim_value_dialog = new WindowContainer(ui, -100, 50, 500, 200, "sim_value_dialog", "Enter Initial Simulation Values", AnchorType.TOPRIGHT);
-            sim_value_dialog.EnableNineSlice(nw_w); 
-            label_generations = new TextLabel(sim_value_dialog, "Generations:", 20, 50);
-            input_generations = new TextInput(sim_value_dialog, 20, 75, 80, AnchorType.TOPLEFT);
-            input_generations.EnableNineSlice(ns);
+            label_generations = new TextLabel(sim_value_dialog, "Generations:", 20, 25);
+            input_generations = new TextInput(sim_value_dialog, 20, 50, 80, AnchorType.TOPLEFT).SetCharLimit(2);
 
-            label_juveniles = new TextLabel(sim_value_dialog, "Juveniles:", 150, 50);
-            input_juveniles_pop = new TextInput(sim_value_dialog, 150, 75, 80, AnchorType.TOPLEFT);
-            input_juveniles_pop.EnableNineSlice(ns);
-            input_juveniles_survival = new TextInput(sim_value_dialog, 150, 110, 80, AnchorType.TOPLEFT);
-            input_juveniles_survival.EnableNineSlice(ns);
+            new TextLabel(sim_value_dialog, "Disease Factor: ", relativex: 20, relativey: -65, anchorType: AnchorType.BOTTOMLEFT) ;
+            input_disease = new TextInput(sim_value_dialog, 20, -25, 80);
 
-            label_adults = new TextLabel(sim_value_dialog, "Adults:", 270, 50);
-            input_adults_pop = new TextInput(sim_value_dialog, 270, 75, 80, AnchorType.TOPLEFT);
-            input_adults_pop.EnableNineSlice(ns);
-            input_adults_survival = new TextInput(sim_value_dialog, 270, 110, 80, AnchorType.TOPLEFT);
-            input_adults_survival.EnableNineSlice(ns);
-            input_adults_birthrate = new TextInput(sim_value_dialog, 270, 150, 80, AnchorType.TOPLEFT);
-            input_adults_birthrate.EnableNineSlice(ns);
+            label_juveniles = new TextLabel(sim_value_dialog, "Juveniles:", 150, 25);
+            input_juveniles_pop = new TextInput(sim_value_dialog, 150, 50, 80, AnchorType.TOPLEFT, "Population").SetCharLimit(10);
+            input_juveniles_survival = new TextInput(sim_value_dialog, 150, 85, 80, AnchorType.TOPLEFT, "Survival R.").SetCharLimit(10);
 
-            label_seniles = new TextLabel(sim_value_dialog, "Seniles:", 380, 50);
-            input_seniles_pop = new TextInput(sim_value_dialog, 380, 75, 80, AnchorType.TOPLEFT);
-            input_seniles_pop.EnableNineSlice(ns);
-            input_seniles_survival = new TextInput(sim_value_dialog, 380, 110, 80, AnchorType.TOPLEFT);
-            input_seniles_survival.EnableNineSlice(ns);
-            Button btn_apply_sim_values = new Button(sim_value_dialog, "Apply", -10, -10, 70, 50, AnchorType.BOTTOMRIGHT, EventType.None, "apply_sim_values");
+            label_adults = new TextLabel(sim_value_dialog, "Adults:", 270, 25);
+            input_adults_pop = new TextInput(sim_value_dialog, 270, 50, 80, AnchorType.TOPLEFT, "Population").SetCharLimit(10);
+            input_adults_survival = new TextInput(sim_value_dialog, 270, 85, 80, AnchorType.TOPLEFT, "Survival R.").SetCharLimit(10);
+            input_adults_birthrate = new TextInput(sim_value_dialog, 270, 120, 80, AnchorType.TOPLEFT, "Birth Rate").SetCharLimit(10);
+
+            label_seniles = new TextLabel(sim_value_dialog, "Seniles:", 380, 25);
+            input_seniles_pop = new TextInput(sim_value_dialog, 380, 50, 80, AnchorType.TOPLEFT, "Population").SetCharLimit(10);
+            input_seniles_survival = new TextInput(sim_value_dialog, 380, 85, 80, AnchorType.TOPLEFT, "Survival R.").SetCharLimit(10);
+            Button btn_apply_sim_values = new Button(sim_value_dialog, "Apply", -10, -10, AnchorType.BOTTOMRIGHT, EventType.None, "apply_sim_values");
             sim_value_dialog.Close();
+            sim_value_dialog.EnableCloseButton();
             #endregion
 
             #region dialog for output of simulation values
-            WindowContainer sim_data_dialog = new WindowContainer(ui, 0, 0, 500, 600, "sim_data_dialog", "Simulation Results", AnchorType.BOTTOMRIGHT);
-            
+            WindowContainer sim_data_dialog = new WindowContainer(ui, 0, 0, 450, 350, "sim_data_dialog", "Simulation Results", AnchorType.BOTTOMRIGHT);
             output_data = new TextLabel(sim_data_dialog, "", 5, 30);
             
             sim_data_dialog.Close();
+            sim_data_dialog.EnableCloseButton();
             sim_data_dialog.Resizeable = true;
             sim_data_dialog.ClipContents = true;
             #endregion
 
             #region dialog for file export
-            WindowContainer dialog_export = new WindowContainer(ui, 10, -10, 400, 100, "export_csv", "Enter filename for export...", AnchorType.BOTTOMLEFT);
+            dialog_export = new WindowContainer(ui, 10, -10, 400, 100, "export_csv", "Enter filename for export...", AnchorType.BOTTOMLEFT);
             dialog_export.Close();
             input_csv_export = new TextInput(dialog_export, 0, 0, 300, AnchorType.CENTRE, "filepath", 4);
+            input_csv_export.Height = 20;
             #endregion
 
+            Keyframes.StaggeredCustom(
+                new Control[] { btn_apply_sim_values, btn_start_sim, btn_export_csv, btn_quit }, 
+                -300, 0, 0.5f, Ease.InCubic, 0.1f);
         }
 
         public void MenuScene_OnButtonClick (object sender, OnButtonClickEventArgs e)
@@ -118,32 +128,62 @@ namespace SummerProject_CAST
                 adults_default = new Greenflies(int.Parse(input_adults_pop.InputText), float.Parse(input_adults_survival.InputText), float.Parse(input_adults_birthrate.InputText));
                 seniles_default = new Greenflies(int.Parse(input_seniles_pop.InputText), float.Parse(input_seniles_survival.InputText), null);
                 generations_default = int.Parse(input_generations.InputText);
+                disease_default = float.Parse(input_disease.InputText);
             }
-            if (e.tag == "sim_data_dialog" && e.event_type ==EventType.OpenWindow)
+            if (e.tag == "sim_data_dialog" && e.event_type == EventType.OpenWindow)
             {
-                ScenePopModel = new PopulationModel(juveniles_default, adults_default, seniles_default, generations_default);
+                ScenePopModel = new PopulationModel(juveniles_default, adults_default, seniles_default, generations_default, disease_default);
                 ScenePopModel.Simulate();
                 output_data.Text = ScenePopModel.Data;
             }
+            if (e.tag == "export_confirm_no" || e.tag == "export_confirm_yes")
+            {
+                dialog_export_overwrite.Dispose();
+                if (e.tag == "export_confirm_yes")
+                {
+                    ScenePopModel.ExportCSV(input_csv_export.InputText, true);
+                    dialog_export.Close();
+                }
+            }
+
         }
         public void MenuScene_OnTextFieldSubmit(object sender, MiscTextEventArgs e)
         {
             if (sender == input_csv_export)
             {
+                if (ScenePopModel == null)
+                {
+                    ErrorDialog("No data yet created for export.");
+                    return;
+                }
+
                 ExportResult exp = ScenePopModel.ExportCSV(input_csv_export.InputText);
                 if (exp == ExportResult.FileExists) 
                 {
                     // create a yes/no dialog for this
+                    CreateOverwriteDialog();
                     UIEventHandler.sendDebugMessage(this, "File already exists. \n(Implement dialog for check)");
                 } else if (exp == ExportResult.Failure)
                 {
+                    ErrorDialog("Error occurred in file export.");
                     UIEventHandler.sendDebugMessage(this, "An Error occurred. Could not save CSV file.");
+                } else if (exp == ExportResult.Success)
+                {
+                    dialog_export.Close();
                 }
             }
         }
-        public void CreateYesNoDialog(string title)
+        public void CreateOverwriteDialog()
         {
-
+            dialog_export_overwrite = new WindowContainer(UI, 0, 0, 150, 80, "export_confirm", "Confirm export overwrite?");
+            Button no = new Button(dialog_export_overwrite, "No", 20, -10, AnchorType.BOTTOMLEFT, EventType.None, "export_confirm_no");
+            Button yes = new Button(dialog_export_overwrite, "Yes", -20, -10, AnchorType.BOTTOMRIGHT, EventType.None, "export_confirm_yes");
+        }
+        public void ErrorDialog(string message)
+        {
+            var c = new WindowContainer(UI, 0, 0, 200, 80, "err", "Error: ", AnchorType.CENTRE) { Resizeable = true, ClipContents = true, };
+            new TextLabel(c, message, 0, 0, AnchorType.CENTRE);
+            c.EnableCloseButton(7);
         }
     }
 }

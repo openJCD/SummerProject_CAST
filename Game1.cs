@@ -5,6 +5,8 @@ using HyperLinkUI.Scenes;
 using HyperLinkUI.Engine.GUI;
 using System.Reflection;
 using System;
+using HyperLinkUI.Engine;
+using MonoTween;
 
 namespace SummerProject_CAST
 {
@@ -12,7 +14,6 @@ namespace SummerProject_CAST
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private GameSettings Settings;
         private SceneManager SceneManager;
         private Scene HomeScene;
         private UIRoot UI;
@@ -38,28 +39,17 @@ namespace SummerProject_CAST
         {
             //Settings = new GameSettings();
             // TODO: Add your initialization logic here
+            SceneManager = Core.Init(Content, _graphics, GameWindow, "Content/GUI/Saves/skin.ini");
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            UI = new UIRoot();
             base.Initialize();
         }
         
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
-            Settings = new GameSettings();
-            Settings = GameSettings.TryLoadSettings("Content/GUI/Saves/", "settings.xml");
-            Settings.FullFilePath = "Content/GUI/Saves/settings.xml";
-            Settings.LoadAllContent(Content);
-            _graphics.PreferredBackBufferWidth = Settings.WindowWidth;
-            _graphics.PreferredBackBufferHeight = Settings.WindowHeight;
-            _graphics.ApplyChanges();
-            SceneManager = new SceneManager(Settings, "settings.xml", Content, _graphics, Window);
-            SceneManager.CreateScenesFromFolder("Content/GUI/Scenes/");
-            SceneManager.LoadScene("default.scene");
-            UI = new UIRoot(_graphics, Settings);
-            DebugConsole debugConsole = new DebugConsole(UI);
-            ms = new MenuScene();
-            ms.Load(UI);
-            SceneManager.GlobalSettingsPath = "Content/GUI/Saves/";
+            Core.LoadAll(SceneManager, "Content/GUI/Scenes", "default.scene");
             Background.Import("Content/backgrounds/crosses.json", Content, out BG);
+            new MenuScene().Load(UI, Content);
             // TODO: use this.Content to load your game content here
         }
 
@@ -72,6 +62,7 @@ namespace SummerProject_CAST
             //SceneManager.Update(gameTime);
             if (IsActive)
             {
+                TweenManager.TickAllTweens((float)gameTime.ElapsedGameTime.TotalSeconds);
                 UI.Update();
                 UI.Width = GameWindow.ClientBounds.Width;
                 UI.Height = GameWindow.ClientBounds.Height;
@@ -104,14 +95,9 @@ namespace SummerProject_CAST
         {
             if (e.first_key_as_string == "F5")
             {
-                Settings = GameSettings.TryLoadSettings("Content/GUI/Saves/", "settings.xml");
-                Settings.LoadAllContent(Content);
-                UIEventHandler.onHotReload(this, new HotReloadEventArgs { graphicsDeviceReference = _graphics });
-                _graphics.PreferredBackBufferWidth = Settings.WindowWidth;
-                _graphics.PreferredBackBufferHeight = Settings.WindowHeight;
-                _graphics.ApplyChanges();
-                
-                //SceneManager.LoadScene(SceneManager.ActiveScene.Name);
+                UI.ChildContainers.Clear();
+                new MenuScene().Load(UI, Content);
+                Core.ReloadAt(SceneManager, "default.scene");
             }
         }
 
