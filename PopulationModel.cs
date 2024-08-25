@@ -1,8 +1,4 @@
-﻿using System.Collections.Specialized;
-using System.Drawing;
-using System.Xml.Schema;
-using System.IO;
-using Windows.System.Update;
+﻿using System.IO;
 
 namespace SummerProject_CAST
 {
@@ -67,15 +63,30 @@ namespace SummerProject_CAST
                 RecordReadable(i);
             }
         }
-        public ExportResult ExportCSV(string filepath, bool allow_overwrite = false)
+        /// <summary>
+        /// places a file with the given name in the app directory 'export/' folder
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <param name="allow_overwrite"></param>
+        /// <returns></returns>
+        public ExportResult ExportCSV(string filename, bool allow_overwrite = false)
         {
+            
+            if (!Directory.Exists("export"))
+            {
+                Directory.CreateDirectory("export");
+                filename = "export/" + filename;
+            } else
+            {
+                filename = "export/" + filename;
+            }
             try
             {
-                if (File.Exists(filepath))
+                if (File.Exists(filename))
                 {
                     if (!allow_overwrite)
                         return ExportResult.FileExists;
-                    Stream fs = new FileStream(filepath, FileMode.Open);
+                    Stream fs = new FileStream(filename, FileMode.Open);
                     StreamWriter sw = new StreamWriter(fs);
                 
                     sw.Write(csvData);
@@ -83,7 +94,7 @@ namespace SummerProject_CAST
                 }
                 else
                 {
-                    Stream fs = new FileStream(filepath, FileMode.Create);
+                    Stream fs = new FileStream(filename, FileMode.Create);
                     StreamWriter sw = new StreamWriter(fs);
                     sw.Write(csvData);
                     sw.FlushAsync();

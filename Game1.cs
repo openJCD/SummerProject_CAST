@@ -7,6 +7,7 @@ using System.Reflection;
 using System;
 using HyperLinkUI.Engine;
 using MonoTween;
+using System.Linq;
 
 namespace SummerProject_CAST
 {
@@ -93,12 +94,14 @@ namespace SummerProject_CAST
 
         public void Game1_OnKeyPressed (object sender, KeyPressedEventArgs e)
         {
-            if (e.first_key_as_string == "F5")
-            {
-                UI.ChildContainers.Clear();
-                new MenuScene().Load(UI, Content);
-                Core.ReloadAt(SceneManager, "default.scene");
-            }
+            //if (e.first_key_as_string == "F5")
+            //{
+            //    foreach (Container c in UI.ChildContainers.ToList())
+            //        c.Dispose();
+            //    UI.ChildContainers.Clear();
+            //    new MenuScene().Load(UI, Content);
+            //    Core.ReloadAt(SceneManager, "default.scene");
+            //}
         }
 
         public void Game1_OnButtonClick (object sender, OnButtonClickEventArgs e)
