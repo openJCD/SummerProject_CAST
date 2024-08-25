@@ -59,14 +59,15 @@ namespace SummerProject_CAST
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-            //SceneManager.Update(gameTime);
             if (IsActive)
             {
+                // just there for the nice move-in animation at the start
                 TweenManager.TickAllTweens((float)gameTime.ElapsedGameTime.TotalSeconds);
+                //update UIRoot (Menu Scene) and ensure that everything stays centered when the client resizes
                 UI.Update();
                 UI.Width = GameWindow.ClientBounds.Width;
                 UI.Height = GameWindow.ClientBounds.Height;
+                // scroll the background for visual flare
                 BG.Animate(gameTime);
             }
             base.Update(gameTime);
@@ -77,15 +78,15 @@ namespace SummerProject_CAST
             if (IsActive)
             {
                 GraphicsDevice.Clear(Color.Black);
+
+                // separate calls for background and GUI
                 _spriteBatch.Begin();
                 BG.Draw(_spriteBatch, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight));
                 _spriteBatch.End();
-                // TODO: Add your drawing code here
+
+                // rasterizer clipping enabled to cut off pixels outside containers
                 _spriteBatch.Begin(rasterizerState: new RasterizerState { ScissorTestEnable = true });
-                // draw a nice background here
-                //SceneManager.Draw(_spriteBatch);
                 UI.Draw(_spriteBatch);
-                
                 _spriteBatch.End();
             
                 base.Draw(gameTime);
@@ -94,27 +95,15 @@ namespace SummerProject_CAST
 
         public void Game1_OnKeyPressed (object sender, KeyPressedEventArgs e)
         {
-            //if (e.first_key_as_string == "F5")
-            //{
-            //    foreach (Container c in UI.ChildContainers.ToList())
-            //        c.Dispose();
-            //    UI.ChildContainers.Clear();
-            //    new MenuScene().Load(UI, Content);
-            //    Core.ReloadAt(SceneManager, "default.scene");
-            //}
         }
 
         public void Game1_OnButtonClick (object sender, OnButtonClickEventArgs e)
         {
+            // implement quit event here, otherwise Quit main menu button does not work
             if (e.event_type == EventType.QuitGame)
             {
                 Exit();
             }
-        }
-
-        public static void RegisterLuaMethod(Scene scene, MethodInfo method)
-        {
-            scene.ScriptHandler.RegisterFunction(method.Name, method);
         }
     }
 }

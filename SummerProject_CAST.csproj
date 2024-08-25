@@ -27,6 +27,9 @@
     <None Update="Content\GUI\Fonts\OpenSans-Regular.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Content\GUI\Saves\skin.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Content\GUI\Scenes\default.scene.lua">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

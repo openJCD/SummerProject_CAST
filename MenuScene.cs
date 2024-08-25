@@ -42,7 +42,7 @@ namespace SummerProject_CAST
         Greenflies adults_default;
         Greenflies seniles_default;
         int generations_default;
-        float disease_default = 0.5f;
+        int disease_default = 100;
         public MenuScene()
         {
             UIEventHandler.OnButtonClick += MenuScene_OnButtonClick;
@@ -77,8 +77,8 @@ namespace SummerProject_CAST
             label_generations = new TextLabel(sim_value_dialog, "Generations:", 20, 25);
             input_generations = new TextInput(sim_value_dialog, 20, 50, 80, AnchorType.TOPLEFT).SetCharLimit(2);
 
-            new TextLabel(sim_value_dialog, "Disease Factor: ", relativex: 20, relativey: -65, anchorType: AnchorType.BOTTOMLEFT) ;
-            input_disease = new TextInput(sim_value_dialog, 20, -25, 80);
+            new TextLabel(sim_value_dialog, "Disease Threshhold: ", relativex: 20, relativey: -65, anchorType: AnchorType.BOTTOMLEFT) ;
+            input_disease = new TextInput(sim_value_dialog, 20, -25, 80).SetCharLimit(10);
 
             label_juveniles = new TextLabel(sim_value_dialog, "Juveniles:", 150, 25);
             input_juveniles_pop = new TextInput(sim_value_dialog, 150, 50, 80, AnchorType.TOPLEFT, "Population").SetCharLimit(10);
@@ -128,11 +128,11 @@ namespace SummerProject_CAST
                 adults_default = new Greenflies(int.Parse(input_adults_pop.InputText), float.Parse(input_adults_survival.InputText), float.Parse(input_adults_birthrate.InputText));
                 seniles_default = new Greenflies(int.Parse(input_seniles_pop.InputText), float.Parse(input_seniles_survival.InputText), null);
                 generations_default = int.Parse(input_generations.InputText);
-                disease_default = float.Parse(input_disease.InputText);
+                disease_default = int.Parse(input_disease.InputText);
             }
             if (e.tag == "sim_data_dialog" && e.event_type == EventType.OpenWindow)
             {
-                ScenePopModel = new PopulationModel(juveniles_default, adults_default, seniles_default, generations_default, disease_default);
+                ScenePopModel = new PopulationModel(juveniles_default, adults_default, seniles_default, disease_default, generations_default);
                 ScenePopModel.Simulate();
                 output_data.Text = ScenePopModel.Data;
             }
