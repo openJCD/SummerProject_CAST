@@ -137,7 +137,7 @@ namespace SummerProject_CAST
                     StreamWriter sw = new StreamWriter(fs);
                 
                     sw.Write(csvData);
-                    sw.FlushAsync();
+                    sw.Flush();
                     sw.Close();
                     sw.Dispose();
                 }
@@ -146,7 +146,7 @@ namespace SummerProject_CAST
                     Stream fs = new FileStream(filename, FileMode.Create);
                     StreamWriter sw = new StreamWriter(fs);
                     sw.Write(csvData);
-                    sw.FlushAsync();
+                    sw.Flush();
                     sw.Close();
                     sw.Dispose();
                 }
