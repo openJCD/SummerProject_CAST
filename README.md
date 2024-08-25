@@ -17,4 +17,3 @@
      - it is possible to pick up several windows at once
      - text in text fields cannot be selected
      - buttons will still appear to be hovered/clicked, even when obstructed and not actually clickable.
- - Writing anything but numbers in the value input fields may result in a crash.
