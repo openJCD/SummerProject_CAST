@@ -3,6 +3,7 @@ using HyperLinkUI.Engine.GUI;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoTween;
+using System.Linq;
 
 namespace SummerProject_CAST
 {
@@ -123,12 +124,18 @@ namespace SummerProject_CAST
         {
             if (e.tag == "apply_sim_values")
             {
-                // survival and birth rates are set to placeholder values
-                juveniles_default = new Greenflies(int.Parse(input_juveniles_pop.InputText), float.Parse(input_juveniles_survival.InputText), null);
-                adults_default = new Greenflies(int.Parse(input_adults_pop.InputText), float.Parse(input_adults_survival.InputText), float.Parse(input_adults_birthrate.InputText));
-                seniles_default = new Greenflies(int.Parse(input_seniles_pop.InputText), float.Parse(input_seniles_survival.InputText), null);
-                generations_default = int.Parse(input_generations.InputText);
-                disease_default = int.Parse(input_disease.InputText);
+                try
+                {
+                    juveniles_default = new Greenflies(int.Parse(input_juveniles_pop.InputText), float.Parse(input_juveniles_survival.InputText), null);
+                    adults_default = new Greenflies(int.Parse(input_adults_pop.InputText), float.Parse(input_adults_survival.InputText), float.Parse(input_adults_birthrate.InputText));
+                    seniles_default = new Greenflies(int.Parse(input_seniles_pop.InputText), float.Parse(input_seniles_survival.InputText), null);
+                    generations_default = int.Parse(input_generations.InputText);
+                    disease_default = int.Parse(input_disease.InputText);
+                }
+                catch
+                {
+                    ErrorDialog("Check simulation input values");
+                }
             }
             if (e.tag == "sim_data_dialog" && e.event_type == EventType.OpenWindow)
             {
@@ -145,7 +152,10 @@ namespace SummerProject_CAST
                     dialog_export.Close();
                 }
             }
-
+            if (e.tag == "err")
+            {
+                UI.ChildContainers.FirstOrDefault(c => c.Tag == "err").Dispose();
+            }
         }
         public void MenuScene_OnTextFieldSubmit(object sender, MiscTextEventArgs e)
         {
@@ -182,7 +192,7 @@ namespace SummerProject_CAST
         public void ErrorDialog(string message)
         {
             var c = new WindowContainer(UI, 0, 0, 200, 80, "err", "Error: ", AnchorType.CENTRE) { Resizeable = true, ClipContents = true, };
-            new TextLabel(c, message, 0, 0, AnchorType.CENTRE);
+            new TextLabel(c, message, 0, 10, AnchorType.CENTRE);
             c.EnableCloseButton(7);
         }
     }
